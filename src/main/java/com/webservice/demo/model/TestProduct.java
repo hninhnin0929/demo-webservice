@@ -1,17 +1,35 @@
 package com.webservice.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 
+@Entity
+@Table(name = "test")
+@Data
 public class TestProduct {
 
-    private final String id;
-    private final String description;
-    private final BigDecimal price;
+
+    @Id
+    private  String id;
+
+    private  String description;
+
+    private  BigDecimal price;
 
     public TestProduct(String id, String description, BigDecimal price) {
         this.id = id;
         this.description = description;
         this.price = price;
+    }
+
+    public TestProduct() {
+
     }
 
     public String getId() {

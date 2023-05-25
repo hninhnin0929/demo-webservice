@@ -2,6 +2,7 @@ package com.webservice.demo.controller;
 
 import com.webservice.demo.controller.model.TestProductID;
 import com.webservice.demo.model.TestProduct;
+import com.webservice.demo.service.TestService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +18,23 @@ import java.util.UUID;
 @RequestMapping("/test")
 public class TestController {
 
+    TestService testService;
+
+    public TestController(TestService testService) {
+        this.testService = testService;
+    }
+
     @GetMapping("/")
     public String hello(){
         return "Hello World";
     }
 
-    @PostMapping("/testRoute")
+    @PostMapping("/save")
+    public String createTestData(@RequestBody TestProduct testdata){
+        testService.createTestData(testdata);
+        return "Created Successfully";
+    }
+     @PostMapping("/testRoute")
     public ResponseEntity<TestProductID> createProduct(@RequestBody final TestProductID product){
         TestProductID result = new TestProductID(UUID.randomUUID().toString());
         System.out.println(product);
