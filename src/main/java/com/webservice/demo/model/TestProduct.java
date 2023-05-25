@@ -18,8 +18,10 @@ public class TestProduct {
     @Id
     private  String id;
 
+    @Column(name = "description")
     private  String description;
 
+    @Column(name = "price")
     private  BigDecimal price;
 
     public TestProduct(String id, String description, BigDecimal price) {
