@@ -10,11 +10,13 @@ import java.util.TimeZone;
 public class SyskeyUtil {
 	private static int count = 1;
 
-	public static String getSyskey() {
+	public static long getSyskey() {
 		Calendar cal = Calendar.getInstance();
 		Integer r = new Random().nextInt(99 - 1) + 1;
 		count = count >=99999 ? 1 : count+1;
-		return new String(getPrefixSyskey(cal.getTime()) + (r.toString().length() == 1 ? ("0" + r) : r) + "" + formatNumber());
+		String syseky = getPrefixSyskey(cal.getTime()) + (r.toString().length() == 1 ? ("0" + r) : r) + "" + formatNumber();
+		return Long.parseLong(syseky);
+
 
 	}
 

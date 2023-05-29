@@ -20,7 +20,8 @@ public class HashCodeServiceImpl implements HashCodeService {
     public String save(HashCode hashCode){
 
         try {
-
+            if (hashCode.isBoIdRequired(hashCode.getBoId()))
+                hashCode.setBoId("HASH" + hashCodeRepository.count());
             hashCodeRepository.save(hashCode);
         } catch (Exception e) {
             logger.error("Error: " + e.getMessage());

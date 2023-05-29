@@ -21,4 +21,14 @@ public class ExcelImportController {
     public Response importHashCodeFile() {
         return excelImportService.importHashCode();
     }
+
+    @GetMapping("/importCategoryFile")
+    public Response importCategoryFile(){
+        return excelImportService.importCategory();
+    }
+
+    @GetMapping("/importProductFile")
+    public  Response importProductFile(){
+        return excelImportService.importProduct();
+    }
 }
