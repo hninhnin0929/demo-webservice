@@ -103,7 +103,7 @@ public class ExcelImportServiceImpl implements ExcelImportService {
         for(int rowCount = 1; rowCount < 500; rowCount++){
             Row row = sheet.getRow(rowCount);
             Product product = new Product(row);
-            HashCode hashCode = hashCodeRepository.findByHashCodeNoAndEntityStatus(String.valueOf(row.getCell(10)), EntityStatus.ACTIVE);
+            HashCode hashCode = hashCodeRepository.findByHashCodeNoAndEntityStatus(String.valueOf(row.getCell(11)), EntityStatus.ACTIVE);
             if(hashCode != null)
                 product.setHashcode(hashCode);
 
@@ -117,7 +117,7 @@ public class ExcelImportServiceImpl implements ExcelImportService {
 
     private List<Category> getCategoryList(Row row, Product product){
         List<Category> categoryList = new ArrayList<>();
-        String rawCategory = row.getCell(9) + "";
+        String rawCategory = row.getCell(10) + "";
         String[] categories = rawCategory.split("\\|");
         for(String eachCategory: categories){
             Category category = categoryRepository.findByNameAndEntityStatus(eachCategory, EntityStatus.ACTIVE);
@@ -131,7 +131,7 @@ public class ExcelImportServiceImpl implements ExcelImportService {
 
     private List<Review> getReviewList(Row row){
         List<Review> reviewList = new ArrayList<>();
-        String[] reviewRaws = row.getCell(11).toString().split("\\|");
+        String[] reviewRaws = row.getCell(12) == null ? new String[]{""} : row.getCell(12).toString().split("\\|");
         for(String reviewRaw: reviewRaws){
             if(reviewRaw.length() < 1)
                 continue;

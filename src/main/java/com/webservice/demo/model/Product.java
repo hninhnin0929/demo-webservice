@@ -53,8 +53,8 @@ public class Product  extends AbstractModel {
     @Column(name = "productUrl")
     private String productUrl;
 
-//    @Column(name = "description", length = 1000)
-//    private String description;
+    @Column(name = "description", length = 1000)
+    private String description;
 
 //    @JsonIgnore
 //    @JsonManagedReference("product-hashcode")
@@ -89,7 +89,7 @@ public class Product  extends AbstractModel {
         setDimension(row.getCell(6) == null ? "" : row.getCell(6) + "");
         setShippingWeight(row.getCell(7) == null ? "" : row.getCell(7) + "");
         setProductUrl(row.getCell(8) + "");
-//        setDescription(row.getCell(9) == null ? "" : row.getCell(9) + "");
+        setDescription(row.getCell(9) == null ? "" : row.getCell(9) + "");
     }
 
 }
