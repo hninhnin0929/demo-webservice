@@ -58,7 +58,7 @@ public class ExcelImportServiceImpl implements ExcelImportService {
     }
     @Override
     public Response importHashCode() {
-        XSSFSheet sheet = getSheetFromFile("E:\\test-data\\hashcode.xlsx");
+        XSSFSheet sheet = getSheetFromFile("D:\\Job\\selectd-data\\hashcode.xlsx");
 
         if (sheet == null)
             return new Response(false, "File not found.");
@@ -72,7 +72,7 @@ public class ExcelImportServiceImpl implements ExcelImportService {
 
     @Override
     public Response importCategory() {
-        XSSFSheet sheet = getSheetFromFile("E:\\test-data\\category.xlsx");
+        XSSFSheet sheet = getSheetFromFile("D:\\Job\\selectd-data\\category.xlsx");
 
         if (sheet == null)
             return new Response(false, "File not found.");
@@ -96,14 +96,14 @@ public class ExcelImportServiceImpl implements ExcelImportService {
     @Override
     public Response importProduct() {
 
-        XSSFSheet sheet = getSheetFromFile("E:\\test-data\\product.xlsx");
+        XSSFSheet sheet = getSheetFromFile("D:\\Job\\selectd-data\\product.xlsx");
         if(sheet == null)
             return new Response(false, "File not found");
 
         for(int rowCount = 1; rowCount < 500; rowCount++){
             Row row = sheet.getRow(rowCount);
             Product product = new Product(row);
-            HashCode hashCode = hashCodeRepository.findByHashCodeNoAndEntityStatus(String.valueOf(row.getCell(11)), EntityStatus.ACTIVE);
+            HashCode hashCode = hashCodeRepository.findByHashCodeNoAndEntityStatus(String.valueOf(row.getCell(10)), EntityStatus.ACTIVE);
             if(hashCode != null)
                 product.setHashcode(hashCode);
 
@@ -117,7 +117,7 @@ public class ExcelImportServiceImpl implements ExcelImportService {
 
     private List<Category> getCategoryList(Row row, Product product){
         List<Category> categoryList = new ArrayList<>();
-        String rawCategory = row.getCell(10) + "";
+        String rawCategory = row.getCell(9) + "";
         String[] categories = rawCategory.split("\\|");
         for(String eachCategory: categories){
             Category category = categoryRepository.findByNameAndEntityStatus(eachCategory, EntityStatus.ACTIVE);
@@ -131,7 +131,7 @@ public class ExcelImportServiceImpl implements ExcelImportService {
 
     private List<Review> getReviewList(Row row){
         List<Review> reviewList = new ArrayList<>();
-        String[] reviewRaws = row.getCell(12).toString().split("\\|");
+        String[] reviewRaws = row.getCell(11).toString().split("\\|");
         for(String reviewRaw: reviewRaws){
             if(reviewRaw.length() < 1)
                 continue;

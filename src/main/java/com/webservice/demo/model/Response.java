@@ -1,9 +1,6 @@
 package com.webservice.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +17,7 @@ public class Response<T>  implements Serializable{
 
     private static final long serialVersionUID = 8992463810222512826L;
 
+//    @JsonIgnore
     private List<T> dataList = new ArrayList<T>();
 
     private boolean status;

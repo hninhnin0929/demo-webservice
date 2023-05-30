@@ -1,11 +1,13 @@
 package com.webservice.demo.service.impl;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.webservice.demo.dto.SearchProductDto;
 import com.webservice.demo.model.*;
 import com.webservice.demo.repository.ProductRepository;
 import com.webservice.demo.service.ProductService;
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.formula.functions.T;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -40,8 +42,39 @@ public class ProductServiceImpl implements ProductService {
 
         Response response = new Response(true, "success");
         List<Product> productList = productRepository.findByNameContainingAndEntityStatus(searchDto.getName(), EntityStatus.ACTIVE);
-        List<Product> productList1 = new ArrayList<>();
-        response.setDataList(productList);
+        switch (searchDto.getType()) {
+            case Product:
+                response.setDataList(productList);
+                break;
+            case Review:
+                productList.stream().forEach((product) -> {
+                    response.getDataList().addAll(product.getReviewList());
+                });
+                break;
+            case Category:
+                List<Category> categoryList = new ArrayList<Category>();
+                productList.stream().forEach((product) -> {
+                    categoryList.addAll(product.getCategoryList()
+                            .stream()
+                            .filter(c -> !categoryList.contains(c))
+                            .collect(Collectors.toList()));
+                });
+                response.setDataList(categoryList);
+                break;
+            case HashCode:
+//                for (Product product: productList)
+//                    Hibernate.initialize(product.getHashcode());
+                List<HashCode> hashCodeList = productList.stream()
+                        .map(product ->
+                                product.getHashcode())
+                        .collect(Collectors.toList());
+                System.out.println(hashCodeList.get(0).getHashCodeNo());
+                response.setDataList(hashCodeList);
+                break;
+            default:
+                break;
+        }
+//        response.setDataList(productList);
         return response;
     }
 }

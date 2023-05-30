@@ -1,8 +1,6 @@
 package com.webservice.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.*;
 import com.webservice.demo.entity.Views;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -19,36 +17,57 @@ import java.util.List;
 @Setter
 public class Product  extends AbstractModel {
 
+    @JsonView(Views.Thin.class)
+    @Column(name = "uniqueId")
     private String uniqueId;
 
+    @JsonView(Views.Thin.class)
+    @Column(name = "name")
     private String name;
 
+    @JsonView(Views.Thin.class)
+    @Column(name = "sellingPrice")
     private String sellingPrice;
 
+    @JsonView(Views.Thin.class)
+    @Column(name = "manufacturer")
     private String manufacturer;
 
+    @JsonView(Views.Thin.class)
+    @Column(name = "noOfAvailableStock")
     private String noOfAvailableStock;
 
+    @JsonView(Views.Thin.class)
+    @Column(name = "modelNumber")
     private String modelNumber;
 
+    @JsonView(Views.Thin.class)
+    @Column(name = "dimension")
     private String dimension;
 
+    @JsonView(Views.Thin.class)
+    @Column(name = "shippingWeight")
     private String shippingWeight;
 
+    @JsonView(Views.Thin.class)
+    @Column(name = "productUrl")
     private String productUrl;
 
-    private String description;
+//    @Column(name = "description", length = 1000)
+//    private String description;
 
-    @JsonProperty
+    @JsonIgnore
     @JsonView(Views.Thin.class)
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "hashcodeno")
-    private HashCode hashcode = new HashCode();
+    @JoinColumn(name = "hashCode", referencedColumnName = "id")
+    private HashCode hashcode;
 
+    @JsonIgnore
     @JsonView(Views.Thin.class)
     @ManyToMany(mappedBy = "productList")
     private List<Category> categoryList = new ArrayList<Category>();
 
+    @JsonIgnore
     @JsonView(Views.Thin.class)
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "product_review", joinColumns = @JoinColumn(name = "productId"), inverseJoinColumns = @JoinColumn(name = "reviewId"))
@@ -67,7 +86,7 @@ public class Product  extends AbstractModel {
         setDimension(row.getCell(6) == null ? "" : row.getCell(6) + "");
         setShippingWeight(row.getCell(7) == null ? "" : row.getCell(7) + "");
         setProductUrl(row.getCell(8) + "");
-        setDescription(row.getCell(9) == null ? "" : row.getCell(9) + "");
+//        setDescription(row.getCell(9) == null ? "" : row.getCell(9) + "");
     }
 
 }

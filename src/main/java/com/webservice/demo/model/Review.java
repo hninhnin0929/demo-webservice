@@ -16,7 +16,7 @@ public class Review extends AbstractModel {
   @Column(name = "review")
   private String review;
 
-  @Column(name = "description")
+  @Column(name = "description", columnDefinition = "longtext")
   private String description;
 
   @Column(name = "rating")
