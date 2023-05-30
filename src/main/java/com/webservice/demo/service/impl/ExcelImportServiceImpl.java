@@ -120,7 +120,7 @@ public class ExcelImportServiceImpl implements ExcelImportService {
         String rawCategory = row.getCell(10) + "";
         String[] categories = rawCategory.split("\\|");
         for(String eachCategory: categories){
-            Category category = categoryRepository.findByNameAndEntityStatus(eachCategory, EntityStatus.ACTIVE);
+            Category category = categoryRepository.findByNameAndEntityStatus(eachCategory.trim(), EntityStatus.ACTIVE);
             if(category != null){
                 category.getProductList().add(product);
                 categoryList.add(category);
