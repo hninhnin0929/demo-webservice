@@ -56,18 +56,20 @@ public class Product  extends AbstractModel {
 //    @Column(name = "description", length = 1000)
 //    private String description;
 
-    @JsonIgnore
+//    @JsonIgnore
     @JsonView(Views.Thin.class)
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "hashCode", referencedColumnName = "id")
     private HashCode hashcode;
 
-    @JsonIgnore
+//    @JsonIgnore
+    @JsonManagedReference
     @JsonView(Views.Thin.class)
     @ManyToMany(mappedBy = "productList")
     private List<Category> categoryList = new ArrayList<Category>();
 
-    @JsonIgnore
+//    @JsonIgnore
+    @JsonManagedReference
     @JsonView(Views.Thin.class)
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "product_review", joinColumns = @JoinColumn(name = "productId"), inverseJoinColumns = @JoinColumn(name = "reviewId"))
