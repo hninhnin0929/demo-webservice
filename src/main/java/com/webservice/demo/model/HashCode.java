@@ -18,6 +18,7 @@ import jakarta.persistence.*;
 @Table(name = "hashcode")
 @Getter
 @Setter
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class HashCode extends AbstractModel {
 
     @JsonView(Views.Thin.class)
