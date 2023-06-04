@@ -26,4 +26,13 @@ public class ProductController {
 
         return productService.searchByNameAndType(searchProductDto);
     }
+
+    @ResponseBody
+    @PostMapping("/searchProductByFullText")
+    public Response findByFullTextSearch(@RequestBody @Valid SearchProductDto searchProductDto){
+
+        System.out.println(searchProductDto.getName());
+
+        return productService.findByFullTextSearch(searchProductDto);
+    }
 }

@@ -9,4 +9,6 @@ public interface ProductService {
     public String save(Product product);
 
     public Response searchByNameAndType(SearchProductDto searchDto);
+
+    public Response findByFullTextSearch(SearchProductDto searchDto);
 }

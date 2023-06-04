@@ -74,7 +74,46 @@ public class ProductServiceImpl implements ProductService {
             default:
                 break;
         }
-//        response.setDataList(productList);
+        System.out.println("no full text = " + response.getDataList().size());
+        return response;
+    }
+
+    @Override
+    public Response findByFullTextSearch(SearchProductDto searchDto) {
+
+        Response response = new Response(true, "success");
+        List<Product> productList = productRepository.findByFullTextSearch(searchDto.getName());
+        switch (searchDto.getType()) {
+            case Product:
+                response.setDataList(productList);
+                break;
+            case Review:
+                productList.stream().forEach((product) -> {
+                    response.getDataList().addAll(product.getReviewList());
+                });
+                break;
+            case Category:
+                List<Category> categoryList = new ArrayList<Category>();
+                productList.stream().forEach((product) -> {
+                    categoryList.addAll(product.getCategoryList()
+                            .stream()
+                            .filter(c -> !categoryList.contains(c))
+                            .collect(Collectors.toList()));
+                });
+                response.setDataList(categoryList);
+                break;
+            case HashCode:
+                List<HashCode> hashCodeList = productList.stream()
+                        .map(product ->
+                                product.getHashcode())
+                        .collect(Collectors.toList());
+                System.out.println(hashCodeList.get(0).getHashCodeNo());
+                response.setDataList(hashCodeList);
+                break;
+            default:
+                break;
+        }
+        System.out.println("full text = " + response.getDataList().size());
         return response;
     }
 }
